@@ -1,0 +1,1 @@
+- [AI provider fallback](ai-provider-fallback.md) — keep source-backed study flows useful and transparent when model access or quota is unavailable.

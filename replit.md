@@ -1,6 +1,6 @@
-# [Project name]
+# Study Spark
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+Study Spark is a student-focused AI study companion with guided chat, source-backed web research, and personalized study modes.
 
 ## Run & Operate
 
@@ -22,15 +22,22 @@ _Replace the heading above with the project's name, and this line with one sente
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/study-spark/src/App.tsx` — the responsive study room, research desk, and preferences screens.
+- `artifacts/study-spark/src/index.css` — Study Spark's visual tokens, typography, paper texture, and motion utilities.
+- `artifacts/api-server/src/routes/study.ts` — source search and student-safe study assistant API behavior.
+- `lib/api-spec/openapi.yaml` — source of truth for generated study and research API clients.
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- The first release is intentionally useful without a database: preferences use local storage, while research results come from live public sources.
+- The assistant keeps a student-only system boundary and enriches questions with Wikipedia and OpenAlex context before calling the model.
+- If the configured OpenAI account is unavailable or out of credits, the API returns a clearly worded source-first study response instead of failing the chat surface.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+- Students can ask for explanations, step-by-step solving, revision help, and research guidance.
+- The Research desk searches public educational sources and opens source cards in a new tab.
+- Preferences persist the selected subject and default learning mode locally.
 
 ## User preferences
 
@@ -38,7 +45,8 @@ _Populate as you build — explicit user instructions worth remembering across s
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- Chat uses `OPENAI_API_KEY` when credits are available; source search remains available even when model calls fall back to source-first mode.
+- Application API requests use the shared `/api` route; do not hardcode service ports in browser code.
 
 ## Pointers
 

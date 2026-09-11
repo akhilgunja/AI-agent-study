@@ -10,6 +10,10 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: study
+    description: Student-focused study assistant operations
+  - name: research
+    description: Source-backed web research operations
 paths:
   /healthz:
     get:
@@ -24,6 +28,63 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /study/ask:
+    post:
+      operationId: askStudyAssistant
+      tags: [study]
+      summary: Ask the student study assistant a question
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StudyAskInput"
+      responses:
+        "200":
+          description: Student-focused answer with research sources
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StudyAnswer"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "502":
+          description: AI provider error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+  /research/search:
+    get:
+      operationId: searchResearch
+      tags: [research]
+      summary: Search public educational sources
+      parameters:
+        - name: query
+          in: query
+          required: true
+          schema:
+            type: string
+            minLength: 2
+      responses:
+        "200":
+          description: Search results from public knowledge sources
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ResearchSource"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
 components:
   schemas:
     HealthStatus:
@@ -33,4 +94,73 @@ components:
           type: string
       required:
         - status
+    StudyAskInput:
+      type: object
+      properties:
+        message:
+          type: string
+          minLength: 1
+        subject:
+          type: string
+        mode:
+          type: string
+          enum: [learn, solve, revise, research]
+        history:
+          type: array
+          items:
+            $ref: "#/components/schemas/ChatTurn"
+      required:
+        - message
+    ChatTurn:
+      type: object
+      properties:
+        role:
+          type: string
+          enum: [user, assistant]
+        content:
+          type: string
+      required:
+        - role
+        - content
+    StudyAnswer:
+      type: object
+      properties:
+        reply:
+          type: string
+        sources:
+          type: array
+          items:
+            $ref: "#/components/schemas/ResearchSource"
+        suggestedPrompts:
+          type: array
+          items:
+            type: string
+      required:
+        - reply
+        - sources
+        - suggestedPrompts
+    ResearchSource:
+      type: object
+      properties:
+        title:
+          type: string
+        url:
+          type: string
+          format: uri
+        snippet:
+          type: string
+        domain:
+          type: string
+      required:
+        - title
+        - url
+        - snippet
+        - domain
+    ApiError:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
 

@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @plugin "@tailwindcss/typography";
@@ -78,72 +79,72 @@
   --elevate-1: rgba(0, 0, 0, 0.03);
   --elevate-2: rgba(0, 0, 0, 0.08);
 
-  --background: red; /*replace with H S L */
+  --background: 42 48% 96%;
 
-  --foreground: red; /*replace with H S L */
+  --foreground: 240 28% 17%;
 
-  --border: red; /*replace with H S L */
+  --border: 38 28% 85%;
 
-  --card: red; /*replace with H S L */
+  --card: 42 55% 98%;
 
-  --card-foreground: red; /*replace with H S L */
+  --card-foreground: 240 28% 17%;
 
-  --card-border: red; /*replace with H S L */
+  --card-border: 38 32% 87%;
 
-  --sidebar: red; /*replace with H S L */
+  --sidebar: 239 29% 18%;
 
-  --sidebar-foreground: red; /*replace with H S L */
+  --sidebar-foreground: 42 50% 95%;
 
-  --sidebar-border: red; /*replace with H S L */
+  --sidebar-border: 239 21% 28%;
 
-  --sidebar-primary: red; /*replace with H S L */
+  --sidebar-primary: 50 98% 63%;
 
-  --sidebar-primary-foreground: red; /*replace with H S L */
+  --sidebar-primary-foreground: 239 29% 18%;
 
-  --sidebar-accent: red; /*replace with H S L */
+  --sidebar-accent: 239 22% 26%;
 
-  --sidebar-accent-foreground: red; /*replace with H S L */
+  --sidebar-accent-foreground: 42 50% 95%;
 
-  --sidebar-ring: red; /*replace with H S L */
+  --sidebar-ring: 50 98% 63%;
 
-  --popover: red; /*replace with H S L */
+  --popover: 42 55% 98%;
 
-  --popover-foreground: red; /*replace with H S L */
+  --popover-foreground: 240 28% 17%;
 
-  --popover-border: red; /*replace with H S L */
+  --popover-border: 38 32% 87%;
 
-  --primary: red; /*replace with H S L */
+  --primary: 239 29% 18%;
 
-  --primary-foreground: red; /*replace with H S L */
+  --primary-foreground: 50 98% 77%;
 
-  --secondary: red; /*replace with H S L */
+  --secondary: 48 100% 78%;
 
-  --secondary-foreground: red; /*replace with H S L */
+  --secondary-foreground: 240 28% 17%;
 
-  --muted: red; /*replace with H S L */
+  --muted: 38 30% 91%;
 
-  --muted-foreground: red; /*replace with H S L */
+  --muted-foreground: 239 13% 46%;
 
-  --accent: red; /*replace with H S L */
+  --accent: 14 79% 63%;
 
-  --accent-foreground: red; /*replace with H S L */
+  --accent-foreground: 240 28% 17%;
 
-  --destructive: red; /*replace with H S L */
+  --destructive: 3 65% 52%;
 
-  --destructive-foreground: red; /*replace with H S L */
+  --destructive-foreground: 42 50% 96%;
 
-  --input: red; /*replace with H S L */
-  --ring: red; /*replace with H S L */
-  --chart-1: red; /*replace with H S L */
-  --chart-2: red; /*replace with H S L */
-  --chart-3: red; /*replace with H S L */
-  --chart-4: red; /*replace with H S L */
-  --chart-5: red; /*replace with H S L */
+  --input: 38 28% 85%;
+  --ring: 14 79% 63%;
+  --chart-1: 239 29% 18%;
+  --chart-2: 50 98% 63%;
+  --chart-3: 14 79% 63%;
+  --chart-4: 161 38% 42%;
+  --chart-5: 31 80% 60%;
 
-  --app-font-sans: 'Inter', sans-serif;
-  --app-font-serif: Georgia, serif;
-  --app-font-mono: Menlo, monospace;
-  --radius: 0.5rem; /* 8px */
+  --app-font-sans: 'Plus Jakarta Sans', sans-serif;
+  --app-font-serif: 'Fraunces', Georgia, serif;
+  --app-font-mono: 'DM Mono', monospace;
+  --radius: 0.85rem;
   --shadow-2xs: 0px 2px 0px 0px hsl(202.8169 89.1213% 53.1373% / 0); /*replace with H S L */
   --shadow-xs: 0px 2px 0px 0px hsl(202.8169 89.1213% 53.1373% / 0); /*replace with H S L */
   --shadow-sm:
@@ -227,68 +228,68 @@
   --elevate-1: rgba(255, 255, 255, 0.04);
   --elevate-2: rgba(255, 255, 255, 0.09);
 
-  --background: red; /*replace with H S L */
+  --background: 240 28% 12%;
 
-  --foreground: red; /*replace with H S L */
+  --foreground: 42 50% 95%;
 
-  --border: red; /*replace with H S L */
+  --border: 239 18% 28%;
 
-  --card: red; /*replace with H S L */
+  --card: 240 25% 16%;
 
-  --card-foreground: red; /*replace with H S L */
+  --card-foreground: 42 50% 95%;
 
-  --card-border: red; /*replace with H S L */
+  --card-border: 239 18% 28%;
 
-  --sidebar: red; /*replace with H S L */
+  --sidebar: 240 30% 9%;
 
-  --sidebar-foreground: red; /*replace with H S L */
+  --sidebar-foreground: 42 50% 95%;
 
-  --sidebar-border: red; /*replace with H S L */
+  --sidebar-border: 239 18% 23%;
 
-  --sidebar-primary: red; /*replace with H S L */
+  --sidebar-primary: 50 98% 63%;
 
-  --sidebar-primary-foreground: red; /*replace with H S L */
+  --sidebar-primary-foreground: 240 28% 12%;
 
-  --sidebar-accent: red; /*replace with H S L */
+  --sidebar-accent: 239 19% 18%;
 
-  --sidebar-accent-foreground: red; /*replace with H S L */
+  --sidebar-accent-foreground: 42 50% 95%;
 
-  --sidebar-ring: red; /*replace with H S L */
+  --sidebar-ring: 50 98% 63%;
 
-  --popover: red; /*replace with H S L */
+  --popover: 240 25% 16%;
 
-  --popover-foreground: red; /*replace with H S L */
+  --popover-foreground: 42 50% 95%;
 
-  --popover-border: red; /*replace with H S L */
+  --popover-border: 239 18% 28%;
 
-  --primary: red; /*replace with H S L */
+  --primary: 50 98% 63%;
 
-  --primary-foreground: red; /*replace with H S L */
+  --primary-foreground: 240 28% 12%;
 
-  --secondary: red; /*replace with H S L */
+  --secondary: 239 19% 23%;
 
-  --secondary-foreground: red; /*replace with H S L */
+  --secondary-foreground: 42 50% 95%;
 
-  --muted: red; /*replace with H S L */
+  --muted: 239 19% 22%;
 
-  --muted-foreground: red; /*replace with H S L */
+  --muted-foreground: 40 22% 68%;
 
-  --accent: red; /*replace with H S L */
+  --accent: 14 79% 63%;
 
-  --accent-foreground: red; /*replace with H S L */
+  --accent-foreground: 240 28% 12%;
 
-  --destructive: red; /*replace with H S L */
+  --destructive: 3 65% 52%;
 
-  --destructive-foreground: red; /*replace with H S L */
+  --destructive-foreground: 42 50% 95%;
 
   /* Used as the border around inputs. Dark mode: Should be a border that is light enough to have high contrast when rendered on a --card background. More contrast than standard --border */
-  --input: red; /*replace with H S L */
-  --ring: red; /*replace with H S L */
-  --chart-1: red; /*replace with H S L */
-  --chart-2: red; /*replace with H S L */
-  --chart-3: red; /*replace with H S L */
-  --chart-4: red; /*replace with H S L */
-  --chart-5: red; /*replace with H S L */
+  --input: 239 18% 28%;
+  --ring: 50 98% 63%;
+  --chart-1: 50 98% 63%;
+  --chart-2: 14 79% 63%;
+  --chart-3: 161 38% 42%;
+  --chart-4: 31 80% 60%;
+  --chart-5: 42 50% 95%;
 
   --shadow-2xs: 0px 2px 0px 0px hsl(202.8169 89.1213% 53.1373% / 0);
   --shadow-xs: 0px 2px 0px 0px hsl(202.8169 89.1213% 53.1373% / 0);
@@ -430,4 +431,35 @@
   .border.hover-elevate:not(.no-hover-interaction-elevate)::after {
     inset: -1px;
   }
+}
+
+@layer base {
+  html { background: hsl(var(--background)); }
+  body { min-width: 320px; }
+  button, a, input, textarea, select { -webkit-tap-highlight-color: transparent; }
+  ::selection { background: hsl(var(--secondary)); color: hsl(var(--foreground)); }
+}
+
+@layer utilities {
+  .font-display { font-family: var(--app-font-serif); }
+  .font-mono-ui { font-family: var(--app-font-mono); }
+  .paper-grid {
+    background-image: linear-gradient(hsl(239 29% 18% / .035) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(239 29% 18% / .035) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+  .grain::after {
+    content: '';
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    opacity: .035;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+    z-index: 50;
+  }
+  .animate-rise { animation: rise .55s cubic-bezier(.2,.7,.2,1) both; }
+  .animate-pulse-soft { animation: pulse-soft 2.2s ease-in-out infinite; }
+  @keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes pulse-soft { 0%,100% { opacity: .55; } 50% { opacity: 1; } }
 }
