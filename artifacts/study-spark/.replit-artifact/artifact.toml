@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Study Spark"
+description = "A student-focused AI study companion with guided chat, research sources, subject workspaces, and study tools for learning faster with confidence."
+version = "1.0.0"
+id = "artifacts/study-spark"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21578
+
+[services.development]
+run = "pnpm --filter @workspace/study-spark run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/study-spark", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/study-spark/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21578"
+BASE_PATH = "/"
