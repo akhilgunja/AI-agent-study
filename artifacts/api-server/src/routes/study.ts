@@ -283,6 +283,7 @@ router.post("/study/ask", async (req, res) => {
 
   try {
     const model = await resolveGroqModel(apiKey);
+    req.log.info({ model }, "Groq model selected for study request");
     const completionResponse = await fetch(
       `${GROQ_API_BASE_URL}/chat/completions`,
       {

@@ -1,1 +1,2 @@
 - [AI provider fallback](ai-provider-fallback.md) — keep source-backed study flows useful and transparent when model access or quota is unavailable.
+- [Groq study provider](groq-study-provider.md) — use server-side Groq with active-model discovery and transparent provider errors.
