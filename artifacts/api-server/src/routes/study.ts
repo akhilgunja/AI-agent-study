@@ -13,13 +13,33 @@ type ResearchSource = {
 
 const router: IRouter = Router();
 
-const STUDY_SYSTEM_PROMPT = `You are Study Spark, a supportive AI study companion for students.
-Only answer questions that are relevant to learning, school, university, careers, study skills, or academic research.
-If a request is unrelated, briefly say you are focused on student learning and redirect to a useful academic angle.
-Explain concepts clearly at the student's level. Prefer step-by-step reasoning, examples, and short sections.
-Do not do graded work dishonestly or pretend certainty. Help the student understand and produce their own work.
-When sources are provided, use them as context and mention the most relevant source titles naturally.
-Never invent citations, facts, links, or source claims.`;
+const GROQ_API_BASE_URL = "https://api.groq.com/openai/v1";
+
+const STUDY_SYSTEM_PROMPT = `You are an AI Study Tutor designed exclusively to help students learn.
+
+Your primary goals are factual accuracy, clear reasoning, and educational value. Carefully understand the student's question before answering. Never intentionally guess. If you are uncertain or the available context cannot verify a claim, say so clearly instead of inventing an answer.
+
+Only answer questions relevant to learning, school, university, careers, study skills, or academic research. If a request is unrelated, respond briefly: "I am designed specifically to help with studying and academic learning. Please ask me a study-related question."
+
+Adapt explanations to the student's selected subject and mode. Use short sections, plain language, examples, and enough detail for the student to understand the reasoning. Correct an incorrect assumption respectfully. Do not do graded work dishonestly or pretend certainty; help the student learn and produce their own work.
+
+For mathematics and numerical problems:
+1. Identify the given information.
+2. Identify what must be calculated.
+3. Select the correct formula or method.
+4. Solve step by step.
+5. Recheck the calculation.
+6. State the final answer clearly.
+
+For programming:
+1. Understand the requested behavior.
+2. Provide syntactically valid code in the requested language.
+3. Explain the important parts.
+4. Check for obvious syntax and logical errors.
+
+For science and technical subjects, distinguish established facts from assumptions and use simple examples when useful.
+
+When public source context is provided, use it as evidence, distinguish it from your own explanation, and mention relevant source titles naturally. Never invent citations, facts, links, or source claims.`;
 
 function domainFromUrl(url: string) {
   try {
@@ -135,31 +155,74 @@ function suggestedPrompts(subject?: string) {
   ];
 }
 
-function offlineStudyReply(
-  message: string,
+function providerUnavailableReply(
+  reason: "missing-key" | "request-failed",
   sources: ResearchSource[],
-  subject?: string,
 ) {
-  const lower = message.toLowerCase();
-  if (lower.includes("python") && lower.includes("function")) {
-    return `Python functions are reusable blocks of code that perform one focused task.\n\nSyntax:\ndef greet(name):\n    return f"Hello, {name}"\n\nKey ideas:\n• def starts the function definition.\n• name is a parameter; the value passed in is an argument.\n• return sends a result back to the caller.\n• A function can have default parameters, such as def greet(name="there").\n\nExample use:\nmessage = greet("Asha")\nprint(message)\n\nRemember: define once, call whenever you need the same logic.`;
-  }
-  if (lower.includes("photosynthesis")) {
-    return `Photosynthesis is how green plants make food using light energy.\n\n1. In the leaves, chlorophyll captures energy from sunlight.\n2. The plant uses that energy to combine water and carbon dioxide into glucose, releasing oxygen.\n\nThe short formula is: carbon dioxide + water + light → glucose + oxygen.`;
-  }
-  if (lower.includes("quadratic")) {
-    return `A quadratic equation has the form ax² + bx + c = 0.\n\nA common way to solve it is the quadratic formula:\nx = (-b ± √(b² - 4ac)) / 2a\n\nFirst identify a, b, and c, calculate the discriminant b² - 4ac, then substitute carefully.`;
-  }
-  const topic = subject ? `${subject} question` : "study question";
-  if (sources.length === 0) {
-    return `I’m in source-first study mode right now, so I can’t generate a full AI explanation for this ${topic}. Try the Research desk for live public sources, then bring the strongest source back here and I’ll help you turn it into notes, flashcards, or a quiz.`;
+  const message =
+    reason === "missing-key"
+      ? "Groq is not configured yet. Add GROQ_API_KEY in the secure project secrets to enable Study Spark's AI tutor."
+      : "Sorry, I couldn't connect to the AI service right now. Please try again.";
+  const sourceNote = sources.length
+    ? "\n\nThe public research sources below are still available while the AI service is unavailable."
+    : "";
+  return `${message}${sourceNote}`;
+}
+
+type GroqModel = {
+  id?: string;
+  active?: boolean;
+  owned_by?: string;
+};
+
+async function resolveGroqModel(apiKey: string) {
+  const configuredModel = process.env.GROQ_MODEL?.trim();
+  const response = await fetch(`${GROQ_API_BASE_URL}/models`, {
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      Accept: "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Groq model discovery failed with status ${response.status}`);
   }
 
-  const evidence = sources
-    .slice(0, 3)
-    .map((source, index) => `${index + 1}. ${source.title} — ${source.snippet}`)
-    .join("\n");
-  return `I’m in source-first study mode right now, so here’s a grounded starting point for “${message}”.\n\nKey evidence from public sources:\n${evidence}\n\nA good next step is to compare the first source with one academic result, write down the connection between them, and ask me to turn your notes into a short explanation or practice quiz.`;
+  const payload = (await response.json()) as { data?: GroqModel[] };
+  const availableModels = (payload.data ?? [])
+    .filter((model) => model.active !== false && model.id)
+    .map((model) => model.id as string);
+
+  if (configuredModel) {
+    if (!availableModels.includes(configuredModel)) {
+      throw new Error(
+        `Configured GROQ_MODEL "${configuredModel}" is not available`,
+      );
+    }
+    return configuredModel;
+  }
+
+  const preferredModels = [
+    "llama-3.3-70b-versatile",
+    "llama-4-scout-17b-16e-instruct",
+    "qwen/qwen3-32b",
+    "openai/gpt-oss-120b",
+  ];
+  const preferred = preferredModels.find((model) =>
+    availableModels.includes(model),
+  );
+  if (preferred) return preferred;
+
+  const chatModel = availableModels.find(
+    (model) =>
+      /instruct|versatile|reasoning/i.test(model) &&
+      !/whisper|guard|embedding|vision/i.test(model),
+  );
+  if (chatModel) return chatModel;
+
+  throw new Error(
+    "No active chat-capable Groq model was returned by the models endpoint",
+  );
 }
 
 router.get("/research/search", async (req, res) => {
@@ -208,10 +271,10 @@ router.post("/study/ask", async (req, res) => {
     },
   ];
 
-  const apiKey = process.env.OPENAI_API_KEY;
+  const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) {
     res.json({
-      reply: offlineStudyReply(body.message, sources, body.subject),
+      reply: providerUnavailableReply("missing-key", sources),
       sources,
       suggestedPrompts: suggestedPrompts(body.subject),
     });
@@ -219,8 +282,9 @@ router.post("/study/ask", async (req, res) => {
   }
 
   try {
+    const model = await resolveGroqModel(apiKey);
     const completionResponse = await fetch(
-      "https://api.openai.com/v1/chat/completions",
+      `${GROQ_API_BASE_URL}/chat/completions`,
       {
         method: "POST",
         headers: {
@@ -228,8 +292,9 @@ router.post("/study/ask", async (req, res) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "gpt-5-mini",
-          max_completion_tokens: 1600,
+          model,
+          temperature: 0.2,
+          max_tokens: 1600,
           messages,
         }),
       },
@@ -239,10 +304,10 @@ router.post("/study/ask", async (req, res) => {
       const errorText = await completionResponse.text();
       req.log.error(
         { status: completionResponse.status, errorText },
-        "OpenAI request failed",
+        "Groq request failed",
       );
       res.json({
-        reply: offlineStudyReply(body.message, sources, body.subject),
+        reply: providerUnavailableReply("request-failed", sources),
         sources,
         suggestedPrompts: suggestedPrompts(body.subject),
       });
@@ -255,7 +320,7 @@ router.post("/study/ask", async (req, res) => {
     const reply = completion.choices?.[0]?.message?.content?.trim();
     if (!reply) {
       res.json({
-        reply: offlineStudyReply(body.message, sources, body.subject),
+        reply: providerUnavailableReply("request-failed", sources),
         sources,
         suggestedPrompts: suggestedPrompts(body.subject),
       });
@@ -270,7 +335,7 @@ router.post("/study/ask", async (req, res) => {
   } catch (error) {
     req.log.error({ err: error }, "Study assistant request failed");
     res.json({
-      reply: offlineStudyReply(body.message, sources, body.subject),
+      reply: providerUnavailableReply("request-failed", sources),
       sources,
       suggestedPrompts: suggestedPrompts(body.subject),
     });

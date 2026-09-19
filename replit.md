@@ -31,7 +31,7 @@ Study Spark is a student-focused AI study companion with guided chat, source-bac
 
 - The first release is intentionally useful without a database: preferences use local storage, while research results come from live public sources.
 - The assistant keeps a student-only system boundary and enriches questions with Wikipedia and OpenAlex context before calling the model.
-- If the configured OpenAI account is unavailable or out of credits, the API returns a clearly worded source-first study response instead of failing the chat surface.
+- The study assistant uses Groq's OpenAI-compatible API from the server. If Groq is not configured or temporarily unavailable, the API returns a clearly labeled provider message while preserving independent public-source results.
 
 ## Product
 
@@ -45,7 +45,7 @@ _Populate as you build — explicit user instructions worth remembering across s
 
 ## Gotchas
 
-- Chat uses `OPENAI_API_KEY` when credits are available; source search remains available even when model calls fall back to source-first mode.
+- Chat uses the secure `GROQ_API_KEY` secret and an optional `GROQ_MODEL` environment variable. The server discovers active Groq models when no model override is provided; source search remains available when model calls are unavailable.
 - Application API requests use the shared `/api` route; do not hardcode service ports in browser code.
 
 ## Pointers

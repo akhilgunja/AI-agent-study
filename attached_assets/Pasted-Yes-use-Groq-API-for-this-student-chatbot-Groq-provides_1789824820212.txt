@@ -1,0 +1,260 @@
+Yes — use **Groq API** for this student chatbot. Groq provides an OpenAI-compatible API, with the base URL `https://api.groq.com/openai/v1`, and its official docs recommend keeping the API key in an environment variable such as `GROQ_API_KEY`. ([GroqCloud][1])
+
+Paste this **instead of the previous AI/API section** into Lovable:
+
+## IMPORTANT — USE GROQ API
+
+Replace the current AI provider/integration with **Groq API**.
+
+Do not use OpenAI, Gemini, Claude, or a mock/fake AI response for the chatbot.
+
+Use Groq as the actual AI backend.
+
+### GROQ CONFIGURATION
+
+Use the official Groq OpenAI-compatible API:
+
+Base URL:
+[https://api.groq.com/openai/v1](https://api.groq.com/openai/v1)
+
+Secret/environment variable:
+
+GROQ_API_KEY
+
+NEVER put the API key directly in frontend React/JavaScript code.
+
+NEVER expose the key in the browser.
+
+NEVER commit the key to GitHub.
+
+Use a secure server-side function/backend endpoint to call Groq.
+
+If Lovable has a Secrets/Environment Variables section, use:
+
+GROQ_API_KEY = [my Groq API key]
+
+Do not ask me to put the key into a frontend file.
+
+### MODEL
+
+Use a currently supported Groq model suitable for a student tutoring chatbot.
+
+Do not hard-code an obsolete/deprecated model.
+
+Check the currently available Groq models before selecting the model.
+
+Prefer a strong reasoning/instruction-following model for:
+
+* Mathematics
+* Programming
+* Computer Science
+* Science
+* Engineering
+* English
+* Exam preparation
+
+If the selected model becomes unavailable, make the model configurable through an environment variable such as:
+
+GROQ_MODEL
+
+Do not silently fall back to fake responses.
+
+---
+
+# GROQ CHAT COMPLETION
+
+Use Groq's chat completion API.
+
+Endpoint:
+
+[https://api.groq.com/openai/v1/chat/completions](https://api.groq.com/openai/v1/chat/completions)
+
+Send:
+
+* system message
+* conversation history
+* current student question
+
+Return the actual assistant response to the frontend.
+
+The response must come from Groq.
+
+---
+
+# STUDENT AI SYSTEM PROMPT
+
+Create a strong system instruction for the Groq model:
+
+"You are an AI Study Tutor designed exclusively to help students learn.
+
+Your primary goals are accuracy, clarity, reasoning, and educational value.
+
+Before answering a question, carefully understand what the student is asking.
+
+For mathematics and numerical problems:
+
+* Identify the given information.
+* Identify what must be calculated.
+* Select the correct formula or method.
+* Solve step by step.
+* Recheck the calculation.
+* Give the final answer clearly.
+
+For programming:
+
+* Understand the requested task.
+* Provide syntactically valid code.
+* Explain the important parts.
+* Check for obvious logical errors.
+* Use the student's selected programming language.
+
+For science and technical subjects:
+
+* Explain concepts accurately.
+* Use simple examples when useful.
+* Distinguish established facts from assumptions.
+
+Never intentionally guess.
+
+If you are uncertain about an answer, clearly say that you are uncertain rather than inventing information.
+
+Adapt explanations to the student's selected education level.
+
+You are an educational tutor, not a general-purpose assistant.
+
+If the user asks something unrelated to studying, respond briefly:
+
+'I am designed specifically to help with studying and academic learning. Please ask me a study-related question.'
+
+Help students understand the reasoning instead of simply giving unexplained answers."
+
+---
+
+# IMPORTANT — FIX WRONG ANSWERS
+
+The current chatbot is producing incorrect answers.
+
+Investigate the entire Groq request pipeline.
+
+Check:
+
+1. API key
+2. API endpoint
+3. Model
+4. System prompt
+5. Conversation history
+6. Request payload
+7. Response parsing
+8. Error handling
+9. Any mock/fallback responses
+10. Frontend rendering
+
+Remove any fake or hard-coded chatbot responses.
+
+Do not hide API failures by returning a fake answer.
+
+If Groq returns an error, show a clear error message to the student.
+
+---
+
+# MATHEMATICAL ACCURACY
+
+For mathematical questions, make the AI explicitly verify calculations before returning the answer.
+
+Example workflow:
+
+Question
+→ Understand
+→ Formula
+→ Calculation
+→ Verification
+→ Final answer
+
+Do not provide only the final number when the student asks for an explanation.
+
+---
+
+# CONVERSATION MEMORY
+
+Maintain the current conversation context.
+
+Send relevant previous messages to Groq so the student can ask follow-up questions.
+
+Example:
+
+Student:
+"What is a variable?"
+
+Student:
+"Give me an example in Python."
+
+The second question should understand that the student is referring to variables.
+
+Do not send unlimited conversation history.
+
+Keep context within reasonable limits.
+
+---
+
+# ERROR HANDLING
+
+If Groq API fails:
+
+Do NOT return a fake answer.
+
+Show:
+
+"Sorry, I couldn't connect to the AI service right now. Please try again."
+
+Log the technical error securely on the server.
+
+Do not expose API keys or internal server errors to the student.
+
+---
+
+# TEST THE GROQ INTEGRATION
+
+After implementing the integration, test the actual chatbot using:
+
+1. "What is 12 × 15? Explain step by step."
+
+2. "Write a Python program to check whether a number is prime."
+
+3. "Explain the difference between RAM and ROM."
+
+4. "What is photosynthesis?"
+
+5. "Explain what a variable is in Python."
+
+Verify that the responses are actually generated by Groq.
+
+Do not hard-code the expected answers.
+
+---
+
+# FINAL REQUIREMENT
+
+Do not tell me that the Groq integration is complete unless:
+
+* GROQ_API_KEY is correctly read from secure environment variables
+* The backend can reach Groq
+* A real Groq model is responding
+* The response reaches the chatbot UI
+* Errors are handled properly
+* No fake responses remain
+* The student-only study restriction is working
+
+After completing the work, give me a short report:
+
+AI Provider: Groq
+Model: [actual model used]
+API Status: Connected / Configuration Required
+Chatbot Status: Working / Needs Configuration
+Remaining Action: [only if something is required from me]
+
+Groq's current documentation also provides a models endpoint for checking which model IDs are active, so Lovable should verify the model rather than blindly using an old model name. ([GroqCloud][2])
+
+**Important:** if you already have a Groq API key, put it into Lovable's **Secrets/Environment Variables**, not into the chatbot prompt or frontend code.
+
+[1]: https://console.groq.com/docs/openai?utm_source=chatgpt.com "OpenAI Compatibility - GroqDocs"
+[2]: https://console.groq.com/docs/api-reference?utm_source=chatgpt.com "API Reference - GroqDocs"

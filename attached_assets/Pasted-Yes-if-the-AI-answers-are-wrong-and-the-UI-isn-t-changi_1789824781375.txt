@@ -1,0 +1,263 @@
+Yes — if the **AI answers are wrong** and the **UI isn't changing**, don't keep asking Lovable to "improve everything." Give it a strict **debug-and-fix prompt**.
+
+Paste this into the Lovable chatbot:
+
+STOP adding new features for now.
+
+I need you to DEBUG and FIX the EXISTING Student AI Chatbot project.
+
+There are currently TWO major problems:
+
+1. The AI is giving incorrect/wrong academic answers.
+2. UI changes requested previously are not actually appearing in the application.
+
+Do not simply explain the problems. Investigate the existing code and fix them.
+
+## STEP 1 — DIAGNOSE THE AI ANSWER PROBLEM
+
+Inspect the complete AI request/response flow:
+
+Frontend chat input
+→ backend/server function
+→ AI API
+→ system prompt
+→ model response
+→ frontend rendering
+
+Find exactly why the answers are incorrect.
+
+Check:
+
+* Which AI model is actually being called
+* Which API endpoint is being used
+* Whether the API key is correctly configured
+* Whether the request is reaching the intended model
+* System prompt
+* User prompt
+* Conversation history
+* Context handling
+* Temperature/randomness settings
+* Token limits
+* Response parsing
+* Error handling
+* Any fallback/mock response
+* Any hard-coded sample responses
+
+Remove fake/mock chatbot responses if they exist.
+
+## STEP 2 — IMPROVE ANSWER ACCURACY
+
+The chatbot is specifically for STUDYING.
+
+Create a strong educational system instruction that tells the AI to:
+
+* Prioritize factual correctness
+* Carefully analyze the question before answering
+* Never intentionally guess
+* Clearly state uncertainty when information cannot be verified
+* Show calculations step-by-step for mathematics
+* Verify calculations before giving the final answer
+* Explain programming code accurately
+* Distinguish facts from assumptions
+* Use the student's education level when explaining
+* Avoid hallucinating information
+* Correct the student if their assumption is incorrect
+
+For numerical problems:
+
+1. Identify the given values
+2. Identify the required result
+3. Select the correct formula/method
+4. Calculate step-by-step
+5. Verify the calculation
+6. Give the final answer clearly
+
+For programming:
+
+1. Understand the requested behavior
+2. Provide correct code
+3. Explain the important parts
+4. Check for obvious syntax/logical errors
+
+Do not claim an answer is correct unless the reasoning supports it.
+
+## STEP 3 — DO NOT USE FAKE DATA
+
+Search the codebase for:
+
+* Mock AI responses
+* Placeholder answers
+* Hard-coded chatbot messages
+* Demo responses
+* Fake API implementations
+
+Remove or replace them with the real AI implementation.
+
+The chatbot must return responses from the configured AI service.
+
+## STEP 4 — FIX THE UI ISSUE
+
+The UI is currently not changing when I request design changes.
+
+Inspect why.
+
+Check:
+
+* Which component is actually rendered
+* App routing
+* Layout components
+* CSS files
+* Tailwind configuration
+* Global styles
+* Component styles
+* Theme provider
+* Cached/static components
+* Duplicate pages/components
+* Old unused UI files
+
+Identify the ACTUAL component being displayed to the user.
+
+Then modify the actual rendered component.
+
+Do NOT create a new unused component and claim the UI has been changed.
+
+## STEP 5 — CREATE A CLEAR NEW UI
+
+Redesign the STUDENT AI CHATBOT interface.
+
+Use a modern educational AI design.
+
+Main layout:
+
+LEFT SIDEBAR:
+
+* Logo
+* New Chat
+* Chat History
+* Study Tools
+* Quiz
+* Flashcards
+* Summarizer
+* Study Planner
+* Settings
+* Student Profile
+
+MAIN AREA:
+
+* Welcome message
+* Suggested study prompts
+* Chat messages
+* Message input
+* File upload
+* Send button
+
+TOP BAR:
+
+* Student name/profile
+* Current study mode
+* Theme toggle
+
+Make the UI visually distinct from the current design.
+
+Do not make tiny cosmetic changes.
+
+Actually change:
+
+* Layout
+* Spacing
+* Typography
+* Cards
+* Buttons
+* Sidebar
+* Chat bubbles
+* Input area
+* Header
+* Empty state
+
+## STEP 6 — MAKE UI CHANGES VISIBLE
+
+After modifying the UI:
+
+* Run/build the application
+* Check the actual rendered page
+* Verify that the new components are being used
+* Fix routing if the old page is still being displayed
+* Fix CSS conflicts
+* Remove obsolete components only when safe
+
+Do not tell me "UI updated" unless the actual rendered application uses the new UI.
+
+## STEP 7 — TEST WITH REAL QUESTIONS
+
+After fixing the AI integration, test it with representative academic questions.
+
+Test:
+
+### Mathematics
+
+"What is 25 × 16? Explain the calculation."
+
+### Python
+
+"Write a Python program to check whether a number is prime and explain it."
+
+### Science
+
+"Explain photosynthesis in simple terms."
+
+### Computer Science
+
+"What is the difference between a stack and a queue?"
+
+Check whether the answers are logically and factually correct.
+
+Do not hard-code these answers. Use the actual AI system.
+
+## STEP 8 — CHECK API CONFIGURATION
+
+If the AI API key is missing or invalid, do NOT silently create fake responses.
+
+Tell me exactly:
+
+AI provider:
+Required secret:
+Where to configure it:
+
+Use secure environment/secrets storage.
+
+Never expose the API key in frontend code.
+
+## STEP 9 — FINAL VERIFICATION
+
+Before finishing, verify:
+
+* Real AI API is being called
+* Correct model is being used
+* AI responses are displayed correctly
+* Conversation history works
+* Student data is isolated
+* UI changes are visible
+* Routing works
+* No mock chatbot responses remain
+* No major console errors remain
+* Desktop UI works
+* Mobile UI works
+
+IMPORTANT:
+
+Do not give me a long explanation.
+
+Actually fix the code first.
+
+Then give me a short report containing:
+
+1. Root cause of wrong AI answers
+2. What you changed
+3. Root cause of UI not changing
+4. What UI you changed
+5. Whether the AI API is working
+6. Whether I need to configure any API secret
+
+### One important thing
+
+If **Lovable still doesn't change the UI after this**, send me a **screenshot of your current Lovable project and the UI you want**, and I can give you a much more targeted prompt telling it exactly which sections/components to replace.
