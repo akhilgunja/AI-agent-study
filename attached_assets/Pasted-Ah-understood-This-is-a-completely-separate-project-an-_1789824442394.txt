@@ -1,0 +1,596 @@
+Ah, understood 👍 This is a **completely separate project: an AI study chatbot exclusively for students** — not the hospital system.
+
+Here is a clean prompt you can paste into Lovable. It tells Lovable to **briefly analyze the existing project first, then complete it, connect the AI API securely, improve the UI, and make the chatbot strictly study-focused.**
+
+Build and complete this project as a **Student-Only AI Study Chatbot**.
+
+IMPORTANT:
+This is a separate project. Do not use, copy, or assume requirements from any previous project.
+
+## 1. FIRST — BRIEF ANALYSIS
+
+Before making changes, briefly inspect the current project and identify:
+
+* Current frontend structure
+* Current UI
+* Existing chatbot implementation
+* Authentication system
+* Database
+* API integration
+* Existing pages/components
+* Missing functionality
+* Major UI/UX issues
+* Security issues
+
+Keep the analysis brief.
+
+After the analysis, immediately implement the required improvements.
+
+Do not spend the response only explaining the analysis.
+
+---
+
+# 2. PROJECT PURPOSE
+
+The application is an **AI chatbot exclusively designed for students for studying and learning**.
+
+The chatbot should help students with:
+
+* Understanding concepts
+* Solving academic problems
+* Step-by-step explanations
+* Programming
+* Mathematics
+* Science
+* Computer Science
+* Engineering subjects
+* English
+* Exam preparation
+* Homework assistance
+* Notes
+* Summaries
+* Revision
+* Study planning
+* Practice questions
+* MCQs
+* Flashcards
+* Educational explanations
+
+The application should NOT be positioned as a general-purpose chatbot.
+
+---
+
+# 3. STUDENT-ONLY AI RESTRICTIONS
+
+The AI chatbot must remain focused on education and studying.
+
+Allowed:
+
+* Academic questions
+* Homework assistance
+* Exam preparation
+* Programming questions
+* Mathematical calculations
+* Concept explanations
+* Study planning
+* Educational research
+* Summaries of provided study material
+* Creating practice questions
+* Explaining uploaded educational documents
+* Debugging code for learning purposes
+
+For unrelated requests, respond briefly:
+
+"I'm designed specifically to help with studying and academic learning. Please ask me a study-related question."
+
+Do not turn the application into a general-purpose assistant.
+
+---
+
+# 4. STUDY MODES
+
+Add dedicated study modes.
+
+### Explain Mode
+
+Explain a concept clearly according to the student's level.
+
+### Solve Mode
+
+Solve academic problems with understandable steps.
+
+### Practice Mode
+
+Generate practice questions.
+
+### Quiz Mode
+
+Create interactive quizzes and MCQs.
+
+### Summarize Mode
+
+Summarize student-provided notes or study material.
+
+### Coding Mode
+
+Help students understand, write, debug, and improve code.
+
+### Exam Mode
+
+Help students revise important topics and create revision material.
+
+### Study Planner
+
+Create study schedules based on subjects, topics, and available study time.
+
+---
+
+# 5. AI CHAT INTERFACE
+
+Create a modern ChatGPT-style study interface.
+
+Include:
+
+* New Chat
+* Chat history
+* Search conversations
+* Delete conversation
+* Rename conversation
+* Clear conversation
+* Message input
+* Send button
+* Stop generation
+* Copy answer
+* Regenerate answer
+* Like/dislike feedback
+* Code formatting
+* Markdown
+* Mathematical formatting
+* File upload where supported
+
+Make the chat fast and easy to use.
+
+---
+
+# 6. STUDENT LOGIN
+
+Create a proper student authentication system.
+
+Login page:
+
+* App logo
+* App name
+* Email
+* Password
+* Show/hide password
+* Remember me
+* Forgot password
+* Login
+* Create account
+
+Registration:
+
+* Name
+* Email
+* Password
+* Confirm password
+* Education level
+* Course/branch
+* Year/grade
+
+Require acceptance of:
+
+**Terms & Conditions**
+
+and
+
+**Privacy Policy**
+
+before registration/login where appropriate.
+
+---
+
+# 7. STUDENT PROFILE
+
+Create a student profile containing:
+
+* Name
+* Email
+* Education level
+* Course
+* Branch
+* Year/grade
+* Preferred subjects
+* Study goals
+
+Allow students to update their profile.
+
+Do not collect unnecessary personal information.
+
+---
+
+# 8. PERSONALIZED LEARNING
+
+Use the student's selected education level and subjects to personalize explanations.
+
+For example:
+
+A beginner should receive beginner-friendly explanations.
+
+An advanced student can receive more technical explanations.
+
+Provide an optional setting:
+
+**Explanation Level**
+
+* Beginner
+* Intermediate
+* Advanced
+
+---
+
+# 9. AI API INTEGRATION
+
+Connect the chatbot to the selected AI API.
+
+IMPORTANT:
+
+Never place the API key directly inside frontend code.
+
+Use Lovable's secure Secrets/Environment Variables.
+
+For example:
+
+AI_API_KEY
+
+If the project already contains an AI API integration:
+
+* Inspect it
+* Fix it if necessary
+* Reuse it
+* Do not create duplicate integrations unnecessarily
+
+If an API key is missing, tell me the exact secret name I need to configure.
+
+Never expose the actual API key in the UI, source code, GitHub, or chatbot.
+
+Use a secure server-side function/backend endpoint when required.
+
+---
+
+# 10. CHATBOT RESPONSE BEHAVIOR
+
+The AI should prioritize:
+
+1. Correctness
+2. Clear explanations
+3. Educational value
+4. Student-friendly language
+
+When solving problems:
+
+* Explain the approach
+* Show the relevant formula/concept
+* Work through the solution
+* Give the final answer
+* Briefly explain why the answer is correct
+
+Do not unnecessarily overwhelm beginners.
+
+---
+
+# 11. HOME DASHBOARD
+
+Create a beautiful student dashboard.
+
+Include:
+
+**Good morning, [Student Name] 👋**
+
+Cards:
+
+* Continue Learning
+* Recent Chats
+* Today's Study Goal
+* Questions Solved
+* Study Time
+* Quiz Progress
+
+Sections:
+
+* Recommended Topics
+* Recent Conversations
+* Quick Study Tools
+* Practice Quiz
+* Study Planner
+
+---
+
+# 12. STUDY TOOLS
+
+Add a Study Tools section containing:
+
+* AI Tutor
+* Quiz Generator
+* MCQ Generator
+* Flashcard Generator
+* Notes Summarizer
+* Study Planner
+* Question Solver
+* Code Helper
+* Concept Explainer
+
+Each tool should have a clean dedicated interface.
+
+---
+
+# 13. FILE UPLOAD
+
+Allow students to upload educational materials where supported.
+
+Supported examples:
+
+* PDF
+* TXT
+* Images of notes/questions
+* Documents where supported
+
+Allow the AI to:
+
+* Summarize
+* Explain
+* Extract important points
+* Generate questions
+* Generate MCQs
+* Explain difficult sections
+
+The AI must only use files the current student is authorized to access.
+
+---
+
+# 14. UI/UX REDESIGN
+
+Completely improve the current interface where necessary.
+
+The design should feel like a modern AI education platform.
+
+Style:
+
+* Clean
+* Modern
+* Student-friendly
+* Minimal
+* Professional
+* Fast
+* Accessible
+
+Create a consistent design system for:
+
+* Colors
+* Typography
+* Buttons
+* Cards
+* Forms
+* Sidebar
+* Header
+* Chat messages
+* Code blocks
+* Modals
+* Notifications
+
+Add light mode and dark mode.
+
+Avoid excessive animations.
+
+Use animations only where they improve UX.
+
+---
+
+# 15. RESPONSIVE DESIGN
+
+The entire application must work properly on:
+
+* Desktop
+* Laptop
+* Tablet
+* Mobile
+
+Mobile requirements:
+
+* Responsive sidebar
+* Mobile chat interface
+* Proper keyboard handling
+* Responsive message bubbles
+* Responsive study tools
+* No unnecessary horizontal scrolling
+
+---
+
+# 16. CHAT HISTORY
+
+Implement persistent chat history for authenticated students.
+
+Each student should only see their own conversations.
+
+Allow:
+
+* New chat
+* Rename chat
+* Search chats
+* Delete chat
+* Clear chat history
+
+Never expose another student's conversations.
+
+---
+
+# 17. SECURITY
+
+Implement proper:
+
+* Authentication
+* Authorization
+* Protected routes
+* Secure API calls
+* Database security
+* Input validation
+* Rate limiting where appropriate
+* Secure file handling
+
+Students must only be able to access their own:
+
+* Profile
+* Chats
+* Uploaded files
+* Study history
+* Preferences
+
+Never expose:
+
+* API keys
+* Authentication tokens
+* Database credentials
+* Other students' data
+
+---
+
+# 18. EDUCATIONAL SAFETY
+
+The AI should support learning rather than encourage academic dishonesty.
+
+For homework and assignments:
+
+* Explain concepts
+* Show reasoning
+* Help students understand the solution
+* Encourage independent learning
+
+For active tests/exams, do not provide assistance intended to facilitate cheating.
+
+---
+
+# 19. ERROR HANDLING
+
+Create excellent error states.
+
+Examples:
+
+"Unable to connect to the AI service. Please try again."
+
+"Your session has expired. Please log in again."
+
+"File upload failed. Please try again."
+
+"Something went wrong. Please try again."
+
+Add:
+
+* Loading indicators
+* Skeleton states
+* Empty states
+* Retry buttons
+* Toast notifications
+
+---
+
+# 20. PERFORMANCE
+
+Optimize the application for:
+
+* Fast page loading
+* Fast chatbot responses
+* Efficient database queries
+* Lazy loading where appropriate
+* Mobile performance
+
+Avoid unnecessary API calls.
+
+---
+
+# 21. DO NOT BREAK EXISTING FEATURES
+
+Before modifying existing code:
+
+* Inspect it
+* Understand it
+* Preserve useful functionality
+* Fix instead of unnecessarily replacing
+
+Do not delete working features without checking their dependencies.
+
+---
+
+# 22. FINAL TESTING
+
+After implementation, test:
+
+### Authentication
+
+* Registration
+* Login
+* Logout
+* Forgot password
+* Protected routes
+
+### Chatbot
+
+* Send message
+* Receive response
+* New chat
+* Chat history
+* Delete chat
+* Regenerate response
+* Copy response
+
+### Study Tools
+
+* Quiz
+* MCQ
+* Summarizer
+* Flashcards
+* Study planner
+* Coding help
+
+### File Upload
+
+* Upload
+* Analyze
+* Summarize
+* Error handling
+
+### Security
+
+* Student isolation
+* API key protection
+* Unauthorized route protection
+
+### UI
+
+* Desktop
+* Tablet
+* Mobile
+* Dark mode
+* Light mode
+
+Fix any problems you discover.
+
+---
+
+# 23. IMPORTANT FINAL RULE
+
+Do not stop after analyzing the project.
+
+**Analyze briefly → implement → test → fix → polish → complete the project.**
+
+Do not return a long explanation instead of making the changes.
+
+When finished, give me only a short summary:
+
+1. What you changed
+2. AI API integration status
+3. Authentication status
+4. Major features completed
+5. Any API secrets I still need to configure
+6. Any remaining issues requiring my action
+
+This version is specifically for your **student AI chatbot**, so Lovable should not mix it with the hospital project.

@@ -1,5 +1,7 @@
 import { type FormEvent, type ReactNode, useMemo, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ClerkProvider, SignIn, SignUp, useClerk, useUser } from '@clerk/react';
+import { publishableKeyFromHost } from '@clerk/react/internal';
 import {
   ArrowUpRight,
   BookOpen,
@@ -39,6 +41,67 @@ import NotFound from '@/pages/not-found';
 import { Link, Route, Switch, useLocation, Router as WouterRouter } from 'wouter';
 
 const queryClient = new QueryClient();
+const clerkPubKey = publishableKeyFromHost(
+  window.location.hostname,
+  import.meta.env.VITE_CLERK_PUBLISHABLE_KEY,
+);
+const clerkProxyUrl = import.meta.env.VITE_CLERK_PROXY_URL;
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+function stripBase(path: string) {
+  return basePath && path.startsWith(basePath)
+    ? path.slice(basePath.length) || '/'
+    : path;
+}
+
+const clerkAppearance = {
+  theme: 'simple' as const,
+  cssLayerName: 'clerk',
+  options: {
+    logoPlacement: 'inside' as const,
+    logoLinkUrl: basePath || '/',
+    logoImageUrl: `${window.location.origin}${basePath}/logo.svg`,
+  },
+  variables: {
+    colorPrimary: '#292744',
+    colorForeground: '#292744',
+    colorMutedForeground: '#77718a',
+    colorDanger: '#b04f49',
+    colorBackground: '#fcf8ed',
+    colorInput: '#f7f1e3',
+    colorInputForeground: '#292744',
+    colorNeutral: '#ded6c4',
+    fontFamily: 'Plus Jakarta Sans, sans-serif',
+    borderRadius: '1rem',
+  },
+  elements: {
+    rootBox: 'w-full flex justify-center',
+    cardBox: 'bg-[#fcf8ed] rounded-[24px] w-[440px] max-w-full overflow-hidden',
+    card: '!shadow-none !border-0 !bg-transparent !rounded-none',
+    footer: '!shadow-none !border-0 !bg-transparent !rounded-none',
+    headerTitle: 'font-display text-[#292744]',
+    headerSubtitle: 'text-[#77718a]',
+    socialButtonsBlockButtonText: 'text-[#292744] font-semibold',
+    formFieldLabel: 'text-[#504a65] font-semibold',
+    footerActionLink: 'text-[#b04f49] font-semibold',
+    footerActionText: 'text-[#77718a]',
+    dividerText: 'text-[#77718a]',
+    identityPreviewEditButton: 'text-[#b04f49]',
+    formFieldSuccessText: 'text-[#41866c]',
+    alertText: 'text-[#b04f49]',
+    logoBox: 'mb-3',
+    logoImage: 'h-10 w-10',
+    socialButtonsBlockButton: 'border-[#ded6c4] bg-[#fffdf6] hover:bg-[#f7f1e3]',
+    formButtonPrimary: 'bg-[#ef8065] text-[#292744] hover:bg-[#f39178]',
+    formFieldInput: 'border-[#ded6c4] bg-[#f7f1e3] text-[#292744]',
+    footerAction: 'bg-transparent',
+    dividerLine: 'bg-[#ded6c4]',
+    alert: 'border-[#ef8065]/40 bg-[#fff0e9]',
+    otpCodeFieldInput: 'border-[#ded6c4] bg-[#f7f1e3] text-[#292744]',
+    formFieldRow: 'mb-4',
+    main: 'px-5 py-4',
+  },
+};
 
 type Mode = StudyAskInputMode;
 
@@ -75,6 +138,8 @@ function Shell({ children }: { children: ReactNode }) {
   const [mobileNav, setMobileNav] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const health = useHealthCheck({ query: { queryKey: getHealthCheckQueryKey(), staleTime: 60_000 } });
+  const { user } = useUser();
+  const { signOut } = useClerk();
   const navigation = [
     { href: '/', label: 'Study room', icon: BookOpen },
     { href: '/research', label: 'Research desk', icon: Search },
@@ -136,6 +201,27 @@ function Shell({ children }: { children: ReactNode }) {
       <div className="fixed bottom-5 right-5 z-30 hidden items-center gap-2 rounded-full border border-[#dfd5c0] bg-[#fcf8ed]/90 px-3 py-2 text-[10px] font-semibold text-[#69647d] shadow-sm backdrop-blur sm:flex">
         <span className={`h-2 w-2 rounded-full ${health.isError ? 'bg-[#ef8065]' : 'bg-[#75b89f]'}`} />
         {health.isError ? 'Connection needs attention' : 'Study Spark is ready'}
+      </div>
+      <div className="fixed right-5 top-5 z-30 flex items-center gap-2 rounded-full border border-[#dfd5c0] bg-[#fcf8ed]/90 px-2 py-1.5 shadow-sm backdrop-blur">
+        {user ? (
+          <>
+            <span className="hidden max-w-[150px] truncate px-2 text-[10px] font-bold text-[#69647d] sm:inline">
+              {user.firstName || user.primaryEmailAddress?.emailAddress}
+            </span>
+            <button
+              type="button"
+              data-testid="button-sign-out"
+              onClick={() => signOut({ redirectUrl: basePath || '/' })}
+              className="rounded-full bg-[#292744] px-3 py-1.5 text-[10px] font-bold text-[#f8efcf] hover:bg-[#403b59]"
+            >
+              Sign out
+            </button>
+          </>
+        ) : (
+          <Link href="/sign-in" data-testid="link-sign-in" className="rounded-full bg-[#292744] px-3.5 py-2 text-[10px] font-bold text-[#f8efcf] hover:bg-[#403b59]">
+            Sign in
+          </Link>
+        )}
       </div>
     </div>
   );
@@ -294,8 +380,51 @@ function Settings() {
    );
 }
 
+function SignInPage() {
+  return (
+    <div className="grain flex min-h-[100dvh] items-center justify-center bg-[#f7f1e3] px-4 py-8">
+      <SignIn
+        routing="path"
+        path={`${basePath}/sign-in`}
+        signUpUrl={`${basePath}/sign-up`}
+      />
+    </div>
+  );
+}
+
+function SignUpPage() {
+  return (
+    <div className="grain flex min-h-[100dvh] items-center justify-center bg-[#f7f1e3] px-4 py-8">
+      <SignUp
+        routing="path"
+        path={`${basePath}/sign-up`}
+        signInUrl={`${basePath}/sign-in`}
+      />
+    </div>
+  );
+}
+
 function Router() {
-  return <RoutedErrorBoundary><Shell><Switch><Route path="/" component={Home} /><Route path="/research" component={Research} /><Route path="/settings" component={Settings} /><Route component={NotFound} /></Switch></Shell></RoutedErrorBoundary>;
+  return (
+    <RoutedErrorBoundary>
+      <Switch>
+        <Route path="/sign-in/*?" component={SignInPage} />
+        <Route path="/sign-up/*?" component={SignUpPage} />
+        <Route path="/">
+          <Shell><Home /></Shell>
+        </Route>
+        <Route path="/research">
+          <Shell><Research /></Shell>
+        </Route>
+        <Route path="/settings">
+          <Shell><Settings /></Shell>
+        </Route>
+        <Route>
+          <Shell><NotFound /></Shell>
+        </Route>
+      </Switch>
+    </RoutedErrorBoundary>
+  );
 }
 
 function RoutedErrorBoundary({ children }: { children: ReactNode }) {
@@ -303,8 +432,53 @@ function RoutedErrorBoundary({ children }: { children: ReactNode }) {
   return <ErrorBoundary resetKey={location}>{children}</ErrorBoundary>;
 }
 
+function ClerkProviderWithRoutes() {
+  const [, setLocation] = useLocation();
+
+  return (
+    <ClerkProvider
+      publishableKey={clerkPubKey}
+      proxyUrl={clerkProxyUrl}
+      appearance={clerkAppearance}
+      signInUrl={`${basePath}/sign-in`}
+      signUpUrl={`${basePath}/sign-up`}
+      localization={{
+        signIn: {
+          start: {
+            title: 'Welcome back',
+            subtitle: 'Sign in to continue your study rhythm',
+          },
+        },
+        signUp: {
+          start: {
+            title: 'Create your study space',
+            subtitle: 'Keep your learning momentum in one place',
+          },
+        },
+      }}
+      routerPush={(to) => setLocation(stripBase(to))}
+      routerReplace={(to) => setLocation(stripBase(to), { replace: true })}
+    >
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Router />
+          <Toaster />
+        </TooltipProvider>
+      </QueryClientProvider>
+    </ClerkProvider>
+  );
+}
+
 function App() {
-  return <QueryClientProvider client={queryClient}><TooltipProvider><WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}><Router /></WouterRouter><Toaster /></TooltipProvider></QueryClientProvider>;
+  if (!clerkPubKey) {
+    throw new Error('Missing VITE_CLERK_PUBLISHABLE_KEY in .env file');
+  }
+
+  return (
+    <WouterRouter base={basePath}>
+      <ClerkProviderWithRoutes />
+    </WouterRouter>
+  );
 }
 
 export default App;
