@@ -1,6 +1,6 @@
 kind = "web"
 previewPath = "/"
-title = "Study Spark"
+title = "STUDY WITH DARK"
 description = "A student-focused AI study companion with guided chat, research sources, subject workspaces, and study tools for learning faster with confidence."
 version = "1.0.0"
 id = "artifacts/study-spark"
